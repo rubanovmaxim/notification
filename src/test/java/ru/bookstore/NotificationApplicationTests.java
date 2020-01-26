@@ -1,4 +1,4 @@
-package ru.otus.architect.notification;
+package ru.bookstore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

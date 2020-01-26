@@ -1,0 +1,19 @@
+server:
+  port: 8084
+
+
+bookstore:
+  cache:
+    url: http://localhost:8083
+
+kafka:
+  bootstrap-address: localhost:9092
+  topic-name: my_test
+
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: mm
+
