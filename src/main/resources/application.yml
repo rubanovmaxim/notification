@@ -11,9 +11,9 @@ kafka:
   topic-name: my_test
 
 
-spring:
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: mm
+#spring:
+#  kafka:
+#    bootstrap-servers: localhost:9092
+#    consumer:
+#      group-id: mm
 
