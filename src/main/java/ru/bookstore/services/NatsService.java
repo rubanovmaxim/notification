@@ -23,14 +23,12 @@ import java.time.Duration;
 
 @EnableScheduling
 @Component
-public class NatsComponent {
+public class NatsService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(NatsComponent.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(NatsService.class);
 
-    //@Autowired
     private Connection natsConnection;
 
-    //@Autowired
     private NotificationController notificationController;
 
     private Subscription subscription;
@@ -39,7 +37,7 @@ public class NatsComponent {
     private String subject;
 
     @Autowired
-    public NatsComponent(Connection natsConnection, NotificationController notificationController) {
+    public NatsService(Connection natsConnection, NotificationController notificationController) {
         this.natsConnection = natsConnection;
         this.notificationController = notificationController;
     }
