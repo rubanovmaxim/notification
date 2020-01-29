@@ -66,7 +66,9 @@ public class NatsService {
                 Message m = null;
                 try {
                     Thread.sleep(500);
-                    m = subscription.nextMessage(Duration.ofMillis(20));
+                    if(subscription.isActive()) {
+                        m = subscription.nextMessage(Duration.ofMillis(20));
+                    }
 
                     if (m != null) {
                         LOGGER.info("Received message on {}", new String(m.getData()));
