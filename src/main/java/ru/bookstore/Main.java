@@ -1,42 +1,57 @@
 package ru.bookstore;
 
-import io.nats.client.AsyncSubscription;
-import io.nats.client.Connection;
-import io.nats.client.Nats;
-import io.nats.client.Options;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 
+@EnableAsync
 @RestController
 @SpringBootApplication
 public class Main {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+//    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+//
+//    @Autowired
+//    private Connection natsConnection;
+//
+//    @Autowired
+//    private NotificationController notificationController;
+//
+//    private Subscription subscription;
+//
+//    @Value("${nats.subject}")
+//    private String subject;
+
+//    @PostConstruct
+//    void pp() {
+//        try {
+//            subscription = natsConnection.subscribe(subject);
+//            start();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     @GetMapping
     public String home() {
 
-        try {
-            Connection natsConnection = initConnection();
-            dd(natsConnection);
-            natsConnection.publish("foo.bar", "Hi there!".getBytes());
-            natsConnection.flush();
-            Thread.sleep(1000);
-//            dd(natsConnection);
-            Thread.sleep(1000);
-            natsConnection.publish("foo.bar", "Hi there after 60 seconds!".getBytes());
-            natsConnection.flush();
-            Thread.sleep(1000);
-//            dd(natsConnection);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            natsConnection.publish(subject, "Hi there!".getBytes());
+//            natsConnection.flush(Duration.ZERO);
+//            Thread.sleep(1000);
+//
+//            //   dd();
+//            natsConnection.publish(subject, "Hi there after 60 seconds!".getBytes());
+//            natsConnection.flush(Duration.ZERO);
+//            Thread.sleep(1000);
+////            dd();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return "notification service";
     }
@@ -46,80 +61,29 @@ public class Main {
     }
 
 
-    private void dd(Connection natsConnection) throws Exception {
-
-
-        AsyncSubscription  subscription = natsConnection
-                .subscribe("foo.bar", msg -> {
-                    LOGGER.info("Received message on {}", msg.toString());
-                });
-        natsConnection.flush();
-
+//    private void start() throws Exception {
+//        Runnable r = () -> {
+//            while (true) {
 //
-//        Runnable r = new Runnable() {
-//
-//            AsyncSubscription subscription;
-//
-//            @Override
-//            public void run() {
+//                Message m = null;
 //                try {
-//                    while (true) {
+//                    Thread.sleep(500);
+//                    m = subscription.nextMessage(Duration.ofMillis(20));
 //
-//                         subscription = natsConnection
-//                                .subscribe("foo.bar", msg -> {
-//                                    LOGGER.info("Received message on {}", msg.toString());
-//                                });
-//
-//
-//                        natsConnection.flush();
-//                        Thread.sleep(1000);
-//
+//                    if (m != null) {
+//                        LOGGER.info("Received message on {}", new String(m.getData()));
+//                        ObjectMapper objectMapper = new ObjectMapper();
+//                        Notification notification = objectMapper.readValue(m.getData(), Notification.class);
+//                        notificationController.sendNotification(notification);
 //                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
 //
+//                } catch (Exception e) {
+//                    LOGGER.error("Error when trying to read message:", e);
 //                }
+//
 //            }
+//
 //        };
 //        new Thread(r).start();
-
-//        Runnable r = ()->{
-//            while(true) {
-//                AsyncSubscription subscription = natsConnection
-//                        .subscribe("foo.bar", msg -> {
-//                            LOGGER.info("Received message on {}", msg.toString());
-//                        });
-//
-//                try {
-//                    natsConnection.flush();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-
-
-    }
-
-        private Connection initConnection () throws IOException {
-//        Properties props = new Properties();
-//        props.setProperty(PROP_URL,"nats://localhost:4222");
-
-            Options options = new Options.Builder()
-                    .errorCb(ex -> LOGGER.error("Connection Exception: ", ex))
-                    .disconnectedCb(event -> LOGGER.error("Channel disconnected: {}", event.getConnection()))
-                    .reconnectedCb(event -> LOGGER.error("Reconnected to server: {}", event.getConnection()))
-                    .build();
-
-
-            return Nats.connect("nats://localhost:4222", options);
-        }
-
-    }
+//    }
+}
